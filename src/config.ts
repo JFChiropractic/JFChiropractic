@@ -29,9 +29,9 @@ export interface SiteConfig {
 export const site: SiteConfig = {
   practiceName: "JF Chiropractic",
   doctorName: "Jordan Frias-Metcalfe", // PLACEHOLDER: your name
-  city: "Springfield", // PLACEHOLDER: your city
-  address: ["123 Wellness Way, Suite 4", "Springfield, ST 00000"], // PLACEHOLDER
-  mapsUrl: "https://maps.google.com/?q=JF+Chiropractic", // PLACEHOLDER: your Maps listing
+  city: "Bournemouth", // PLACEHOLDER: your city
+  address: ["Bournemouth", "United Kingdom"], // PLACEHOLDER
+  mapsUrl: "https://maps.google.com/?q=JF+Chiropractic+Bournemouth+UK", // PLACEHOLDER: your Maps listing
   phone: "+15550000000", // PLACEHOLDER
   phoneDisplay: "(555) 000-0000", // PLACEHOLDER
   email: "hello@jfchiropractic.com", // PLACEHOLDER

@@ -28,7 +28,7 @@ export interface SiteConfig {
 
 export const site: SiteConfig = {
   practiceName: "JF Chiropractic",
-  doctorName: "Teddy", // PLACEHOLDER: your name
+  doctorName: "Jordan Frias-Metcalfe", // PLACEHOLDER: your name
   city: "Bournemouth", // PLACEHOLDER: your city
   address: ["Bournemouth", "United Kingdom"], // PLACEHOLDER
   mapsUrl: "https://maps.google.com/?q=JF+Chiropractic+Bournemouth+UK", // PLACEHOLDER: your Maps listing

@@ -32,8 +32,8 @@ export const site: SiteConfig = {
   city: "Bournemouth", // PLACEHOLDER: your city
   address: ["Bournemouth", "United Kingdom"], // PLACEHOLDER
   mapsUrl: "https://maps.google.com/?q=JF+Chiropractic+Bournemouth+UK", // PLACEHOLDER: your Maps listing
-  phone: "+15550000000", // PLACEHOLDER
-  phoneDisplay: "(555) 000-0000", // PLACEHOLDER
+  phone: "+442079460000", // PLACEHOLDER
+  phoneDisplay: "020 7946 0000", // PLACEHOLDER
   email: "hello@jfchiropractic.com", // PLACEHOLDER
   openingHours: [
     { days: "Mon – Thu", hours: "8:00 – 18:00" },

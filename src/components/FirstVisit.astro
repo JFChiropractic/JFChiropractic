@@ -1,0 +1,68 @@
+---
+const steps = [
+  {
+    title: "Listen & examine",
+    body: "We start with your story — what hurts, when, and what it's stopping you from doing — then a full orthopedic and postural exam.",
+  },
+  {
+    title: "Explain what we found",
+    body: "You'll see exactly what's going on, in plain language. If chiropractic isn't the right tool for it, we'll tell you and refer you on.",
+  },
+  {
+    title: "Treat & map it out",
+    body: "Most patients receive their first treatment the same day, and leave with a written plan: how many visits, what to do at home, what to expect.",
+  },
+];
+---
+
+<section class="section section-spruce" id="first-visit">
+  <div class="section-head">
+    <p class="eyebrow">Your first visit</p>
+    <h2>Know the plan before you leave the room</h2>
+  </div>
+  <ol class="visit-steps">
+    {
+      steps.map((step, i) => (
+        <li data-reveal>
+          <span class="step-num">{i + 1}</span>
+          <h3>{step.title}</h3>
+          <p>{step.body}</p>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .visit-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2.4rem;
+  }
+
+  .visit-steps h3 {
+    color: var(--paper);
+  }
+  .visit-steps p {
+    color: #cfddd4;
+    font-size: 0.98rem;
+    margin-bottom: 0;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background: var(--amber);
+    color: #241a08;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import { services } from "../data/services";
+---
+
+<section class="section" id="care">
+  <div class="section-head">
+    <p class="eyebrow">What we treat</p>
+    <h2>Care for the whole kinetic chain</h2>
+    <p class="section-lede">
+      Every plan starts with an exam and ends with you moving better. These are
+      the ways we get you there.
+    </p>
+  </div>
+  <ul class="care-grid">
+    {
+      services.map((service) => (
+        <li class="care-card" data-reveal>
+          <svg class="care-icon" viewBox="0 0 40 40" aria-hidden="true" set:html={service.icon} />
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .care-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .care-card {
+    background: #ffffff;
+    border: 1px solid var(--sage-line);
+    border-radius: 14px;
+    padding: 1.6rem 1.5rem 1.2rem;
+  }
+  .care-card p {
+    margin-bottom: 0;
+    font-size: 0.98rem;
+  }
+
+  .care-icon {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0.9rem;
+    fill: var(--amber);
+    stroke: var(--amber);
+  }
+</style>

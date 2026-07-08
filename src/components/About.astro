@@ -1,0 +1,119 @@
+---
+import { site } from "../config";
+---
+
+<section class="section" id="about">
+  <div class="about-grid">
+    <div class="about-portrait">
+      <!-- PLACEHOLDER: replace this block with your photo, e.g.
+           <img src="/images/dr-farrell.jpg" alt="Dr. Jordan Farrell adjusting a patient" />
+           (put the file in the public/ folder) -->
+      <div class="portrait-placeholder" role="img" aria-label="Portrait of the doctor">
+        <svg viewBox="0 0 200 240" aria-hidden="true">
+          <circle cx="100" cy="82" r="44" fill="var(--sage)"></circle>
+          <path d="M30 240 C30 178, 170 178, 170 240 Z" fill="var(--sage)"></path>
+        </svg>
+        <span>Your photo here</span>
+      </div>
+    </div>
+    <div class="about-copy">
+      <p class="eyebrow">About your chiropractor</p>
+      <h2>{site.doctorName}</h2>
+      <p>
+        I opened {site.practiceName} because I kept meeting people who had
+        decided that pain was just part of getting older, sitting at a desk, or
+        picking up their kids. It usually isn't.
+      </p>
+      <p>
+        I've spent over a decade treating spines — weekend athletes, new
+        parents, nurses on twelve-hour shifts — and the goal is always the
+        same: find the cause, fix what we can fix, and teach you how to keep it
+        that way.
+        <!-- PLACEHOLDER: your own story -->
+      </p>
+      <ul class="about-creds">
+        {site.credentials.map((cred) => <li>{cred}</li>)}
+      </ul>
+    </div>
+  </div>
+  <blockquote class="testimonial" data-reveal>
+    <p>
+      “I walked in sideways and walked out standing straight. Three visits
+      later I was back in the garden. I should have come years ago.”
+    </p>
+    <cite>— Maria T., patient since 2023 <!-- PLACEHOLDER: real testimonial --></cite>
+  </blockquote>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .portrait-placeholder {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--sage-line);
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 5 / 6;
+  }
+  .portrait-placeholder svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .portrait-placeholder span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.8rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #4a5d55;
+  }
+  .about-portrait img {
+    width: 100%;
+    border-radius: 14px;
+    display: block;
+  }
+
+  .about-creds {
+    list-style: none;
+    margin: 1.4rem 0 0;
+    padding: 0;
+  }
+  .about-creds li {
+    padding: 0.55rem 0;
+    border-top: 1px solid var(--sage-line);
+    font-weight: 500;
+  }
+
+  .testimonial {
+    margin: clamp(3rem, 6vw, 4.5rem) auto 0;
+    max-width: 42rem;
+    text-align: center;
+  }
+  .testimonial p {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    line-height: 1.4;
+    margin: 0 auto 0.8rem;
+  }
+  .testimonial cite {
+    font-style: normal;
+    color: #4a5d55;
+  }
+
+  @media (max-width: 880px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+    .about-portrait {
+      max-width: 260px;
+    }
+  }
+</style>

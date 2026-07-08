@@ -1,0 +1,40 @@
+---
+import { site } from "../config";
+---
+
+<section class="section book-band" id="book">
+  <h2>Your back has carried you this far.<br />Time to return the favor.</h2>
+  <div class="book-actions">
+    <a class="button button-amber" href={`tel:${site.phone}`}>Call {site.phoneDisplay}</a>
+    <a class="button button-ghost-light" href={`mailto:${site.email}`}>Email us</a>
+    <!-- If you use an online booking service (Jane, Calendly, etc.),
+         swap one of these for that link. -->
+  </div>
+  <p class="book-note">Same-week appointments are usually available.</p>
+</section>
+
+<style>
+  .book-band {
+    background: var(--spruce-deep);
+    color: var(--paper);
+    text-align: center;
+  }
+  .book-band h2 {
+    max-width: 26ch;
+    margin-inline: auto;
+  }
+
+  .book-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0 1.2rem;
+  }
+
+  .book-note {
+    margin: 0 auto;
+    color: #a9c0b4;
+    font-size: 0.95rem;
+  }
+</style>

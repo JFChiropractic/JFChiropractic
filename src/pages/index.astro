@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Care from "../components/Care.astro";
+import FirstVisit from "../components/FirstVisit.astro";
+import About from "../components/About.astro";
+import VisitInfo from "../components/VisitInfo.astro";
+import BookBand from "../components/BookBand.astro";
+import { site } from "../config";
+---
+
+<BaseLayout
+  title={`${site.practiceName} — Aligned care for backs, necks, and busy lives`}
+  description={`${site.practiceName} offers spinal adjustments, sports injury care, prenatal chiropractic, and posture therapy in ${site.city}. Book your first visit today.`}
+>
+  <Hero />
+  <Care />
+  <FirstVisit />
+  <About />
+  <VisitInfo />
+  <BookBand />
+</BaseLayout>

@@ -1,0 +1,152 @@
+---
+import { site } from "../config";
+---
+
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Chiropractic care in {site.city}</p>
+    <h1>Stand taller.<br />Move easier.<br />Hurt&nbsp;less.</h1>
+    <p class="lede">
+      Hands-on care for back pain, neck pain, and the aches that keep you from
+      the things you love — with a clear plan from your very first visit.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-amber" href="#book">Book a visit</a>
+      <a class="button button-ghost" href="#care">See what we treat</a>
+    </div>
+    <p class="hero-note">Most patients are seen within 48 hours · No referral needed</p>
+  </div>
+  <figure class="hero-spine" aria-hidden="true">
+    <!-- Vertebrae are placed along this path by the script below; the soft
+         stroke is the no-JS fallback. -->
+    <svg id="spine-svg" viewBox="0 0 300 640" role="presentation">
+      <path
+        id="spine-path"
+        d="M 208 28 C 168 96, 148 150, 158 232 C 170 330, 208 380, 200 470 C 194 540, 158 590, 132 622"
+        fill="none"
+        stroke="var(--sage-line)"
+        stroke-width="3"
+        stroke-linecap="round"></path>
+      <g id="vertebrae"></g>
+    </svg>
+    <figcaption class="spine-caption">
+      The spine has 33 vertebrae.<br />We treat every one of them.
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: center;
+    gap: 2rem;
+    padding: clamp(3rem, 7vw, 5.5rem) var(--pad-x) clamp(3.5rem, 8vw, 6rem);
+    min-height: 72vh;
+  }
+
+  .hero-copy .lede {
+    font-size: 1.2rem;
+    max-width: 34rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1.8rem 0 1.2rem;
+  }
+
+  .hero-note {
+    font-size: 0.9rem;
+    color: #4a5d55;
+  }
+
+  .hero-spine {
+    margin: 0;
+    text-align: center;
+  }
+  .hero-spine svg {
+    width: min(100%, 340px);
+    height: auto;
+  }
+
+  .spine-caption {
+    font-size: 0.85rem;
+    color: #4a5d55;
+    margin-top: 0.6rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 880px) {
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+    .hero-spine {
+      display: none;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Vertebrae are created by the script, so they can't use scoped styles. */
+  .vertebra {
+    fill: var(--spruce);
+    opacity: 0;
+    animation: vertebra-in 400ms ease forwards;
+  }
+  .vertebra.is-amber {
+    fill: var(--amber);
+  }
+
+  @keyframes vertebra-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .vertebra {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  // Place vertebrae along the SVG path. Decorative only — without JS the
+  // soft guide stroke still reads as a spine curve.
+  const path = document.getElementById("spine-path") as SVGPathElement | null;
+  const group = document.getElementById("vertebrae");
+
+  if (path && group) {
+    const COUNT = 24;
+    const total = path.getTotalLength();
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    for (let i = 0; i < COUNT; i++) {
+      const t = i / (COUNT - 1);
+      const len = t * total;
+      const pt = path.getPointAtLength(len);
+      const ahead = path.getPointAtLength(Math.min(len + 1, total));
+      const angle = (Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180) / Math.PI + 90;
+
+      // Vertebrae grow from cervical to lumbar, like the real thing.
+      const w = 26 + t * 22;
+      const h = 11 + t * 5;
+
+      const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      rect.setAttribute("x", String(-w / 2));
+      rect.setAttribute("y", String(-h / 2));
+      rect.setAttribute("width", String(w));
+      rect.setAttribute("height", String(h));
+      rect.setAttribute("rx", String(h / 2));
+      rect.setAttribute("transform", `translate(${pt.x} ${pt.y}) rotate(${angle})`);
+      rect.setAttribute("class", "vertebra" + (i === 14 ? " is-amber" : ""));
+      if (!reduceMotion) rect.style.animationDelay = `${i * 45}ms`;
+      group.appendChild(rect);
+    }
+
+    path.style.opacity = "0.35";
+  }
+</script>

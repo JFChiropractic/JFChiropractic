@@ -2,127 +2,59 @@
 import { site } from "../config";
 ---
 
-<section class="hero">
-  <div class="hero-copy">
-    <p class="eyebrow">Chiropractic care in {site.city}</p>
-    <h1>Stand taller.<br />Move easier.<br />Hurt&nbsp;less.</h1>
-    <p class="lede">
+<section
+  class="grid items-center gap-8 px-pad pb-14 pt-12 md:pb-24 md:pt-20 lg:min-h-[72vh] lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] xl:px-32"
+>
+  <div>
+    <p class="eyebrow" data-hero>Chiropractic care in {site.city}</p>
+    <h1 data-hero>Stand taller.<br />Move easier.<br />Hurt&nbsp;less.</h1>
+    <p class="max-w-[34rem] text-xl" data-hero>
       Hands-on care for back pain, neck pain, and the aches that keep you from
       the things you love — with a clear plan from your very first visit.
     </p>
-    <div class="hero-actions">
+    <div class="mb-5 mt-7 flex flex-wrap gap-4" data-hero>
       <a class="button button-amber" href="#book">Book a visit</a>
       <a class="button button-ghost" href="#care">See what we treat</a>
     </div>
-    <p class="hero-note">Most patients are seen within 48 hours · No referral needed</p>
+    <p class="text-sm text-moss" data-hero>
+      Most patients are seen within 48 hours · No referral needed
+    </p>
   </div>
-  <figure class="hero-spine" aria-hidden="true">
+  <figure class="m-0 hidden text-center lg:block" aria-hidden="true">
     <!-- Vertebrae are placed along this path by the script below; the soft
          stroke is the no-JS fallback. -->
-    <svg id="spine-svg" viewBox="0 0 300 640" role="presentation">
+    <svg class="inline-block h-auto w-full max-w-[340px]" viewBox="0 0 300 640" role="presentation">
       <path
         id="spine-path"
         d="M 208 28 C 168 96, 148 150, 158 232 C 170 330, 208 380, 200 470 C 194 540, 158 590, 132 622"
         fill="none"
-        stroke="var(--sage-line)"
+        stroke="var(--color-sage-line)"
         stroke-width="3"
         stroke-linecap="round"></path>
       <g id="vertebrae"></g>
     </svg>
-    <figcaption class="spine-caption">
+    <figcaption class="mt-2.5 text-[0.85rem] leading-normal text-moss" data-hero>
       The spine has 33 vertebrae.<br />We treat every one of them.
     </figcaption>
   </figure>
 </section>
 
-<style>
-  .hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    align-items: center;
-    gap: 2rem;
-    padding: clamp(3rem, 7vw, 5.5rem) var(--pad-x) clamp(3.5rem, 8vw, 6rem);
-    min-height: 72vh;
-  }
-
-  .hero-copy .lede {
-    font-size: 1.2rem;
-    max-width: 34rem;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin: 1.8rem 0 1.2rem;
-  }
-
-  .hero-note {
-    font-size: 0.9rem;
-    color: #4a5d55;
-  }
-
-  .hero-spine {
-    margin: 0;
-    text-align: center;
-  }
-  .hero-spine svg {
-    width: min(100%, 340px);
-    height: auto;
-  }
-
-  .spine-caption {
-    font-size: 0.85rem;
-    color: #4a5d55;
-    margin-top: 0.6rem;
-    line-height: 1.5;
-  }
-
-  @media (max-width: 880px) {
-    .hero {
-      grid-template-columns: 1fr;
-      min-height: 0;
-    }
-    .hero-spine {
-      display: none;
-    }
-  }
-</style>
-
-<style is:global>
-  /* Vertebrae are created by the script, so they can't use scoped styles. */
-  .vertebra {
-    fill: var(--spruce);
-    opacity: 0;
-    animation: vertebra-in 400ms ease forwards;
-  }
-  .vertebra.is-amber {
-    fill: var(--amber);
-  }
-
-  @keyframes vertebra-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .vertebra {
-      animation: none;
-      opacity: 1;
-    }
-  }
-</style>
-
 <script>
-  // Place vertebrae along the SVG path. Decorative only — without JS the
-  // soft guide stroke still reads as a spine curve.
-  const path = document.getElementById("spine-path") as SVGPathElement | null;
+  // Hero entrance, powered by Motion (motion.dev):
+  // copy rises in as a stagger, then vertebrae appear one by one down the
+  // spine path. Decorative only — without JS the guide stroke still reads
+  // as a spine curve and the copy stays visible.
+  import { animate, stagger } from "motion";
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+  const path = document.getElementById("spine-path") as unknown as SVGPathElement | null;
   const group = document.getElementById("vertebrae");
 
   if (path && group) {
     const COUNT = 24;
     const total = path.getTotalLength();
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     for (let i = 0; i < COUNT; i++) {
       const t = i / (COUNT - 1);
@@ -142,11 +74,28 @@ import { site } from "../config";
       rect.setAttribute("height", String(h));
       rect.setAttribute("rx", String(h / 2));
       rect.setAttribute("transform", `translate(${pt.x} ${pt.y}) rotate(${angle})`);
-      rect.setAttribute("class", "vertebra" + (i === 14 ? " is-amber" : ""));
-      if (!reduceMotion) rect.style.animationDelay = `${i * 45}ms`;
+      rect.setAttribute("fill", i === 14 ? "var(--color-amber)" : "var(--color-spruce)");
+      if (!reduceMotion) rect.setAttribute("opacity", "0");
       group.appendChild(rect);
     }
 
     path.style.opacity = "0.35";
+
+    if (!reduceMotion) {
+      animate(
+        [...group.children],
+        { opacity: [0, 1] },
+        { duration: 0.4, delay: stagger(0.045, { startDelay: 0.3 }) }
+      );
+    }
+  }
+
+  if (!reduceMotion) {
+    const heroEls = document.querySelectorAll("[data-hero]");
+    animate(
+      heroEls,
+      { opacity: [0, 1], y: [22, 0] },
+      { duration: 0.7, delay: stagger(0.1), ease: EASE_OUT }
+    );
   }
 </script>

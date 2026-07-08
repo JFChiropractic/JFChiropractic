@@ -1,132 +1,102 @@
-/* JF Chiropractic — design tokens
+@import "tailwindcss";
+
+/* JF Chiropractic design tokens
    Palette: mist paper, spruce ink, sage tint, one amber accent (CTA + spine). */
-:root {
-  --paper: #F3F6F2;
-  --ink: #1C2B26;
-  --spruce: #204A3F;
-  --spruce-deep: #16352D;
-  --sage: #DBE6DD;
-  --sage-line: #C2D3C6;
-  --amber: #D08C2E;
-  --amber-deep: #B4761F;
-  --paper-soft: rgba(243, 246, 242, 0.72);
+@theme {
+  --color-paper: #F3F6F2;
+  --color-ink: #1C2B26;
+  --color-spruce: #204A3F;
+  --color-spruce-deep: #16352D;
+  --color-sage: #DBE6DD;
+  --color-sage-line: #C2D3C6;
+  --color-sage-soft: #CFDDD4;
+  --color-sage-mist: #A9C0B4;
+  --color-amber: #D08C2E;
+  --color-amber-deep: #B4761F;
+  --color-amber-soft: #E5B15C;
+  --color-amber-ink: #241A08;
+  --color-moss: #4A5D55;
 
   --font-display: "Young Serif", "Iowan Old Style", Georgia, serif;
   --font-body: "Karla", "Avenir Next", "Segoe UI", sans-serif;
 
-  --measure: 62ch;
-  --pad-x: clamp(1.25rem, 5vw, 4rem);
+  /* horizontal page gutter (px-pad) */
+  --spacing-pad: clamp(1.25rem, 5vw, 4rem);
 }
 
-* { box-sizing: border-box; }
+@layer base {
+  html {
+    @apply motion-safe:scroll-smooth;
+  }
 
-html { scroll-behavior: smooth; }
+  body {
+    @apply bg-paper font-body text-ink antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
 
-body {
-  margin: 0;
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1.12;
+    margin: 0 0 0.6em;
+    text-wrap: balance;
+  }
+  h1 { font-size: clamp(2.6rem, 6.5vw, 4.4rem); letter-spacing: -0.01em; }
+  h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); }
+  h3 { font-size: 1.2rem; }
+
+  p { margin: 0 0 1em; max-width: 62ch; }
+
+  a { color: var(--color-spruce); }
+
+  :focus-visible {
+    outline: 3px solid var(--color-amber);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Elements Motion will reveal start hidden — but only when JS is running
+     (the .js class is added by an inline script) and motion is welcome.
+     No JS or reduced motion → everything stays visible. */
+  @media (prefers-reduced-motion: no-preference) {
+    html.js [data-reveal],
+    html.js [data-hero] {
+      opacity: 0;
+    }
+  }
 }
 
-h1, h2, h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 1.12;
-  margin: 0 0 0.6em;
-  text-wrap: balance;
-}
+@layer components {
+  .button {
+    @apply inline-block rounded-full px-6 py-3 font-bold no-underline transition;
+    @apply motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0;
+  }
+  .button-amber {
+    @apply bg-amber text-amber-ink shadow-[0_2px_0_var(--color-amber-deep)] hover:bg-[#DD9A3E];
+  }
+  .button-ghost {
+    @apply border-2 border-sage-line text-spruce hover:border-spruce;
+  }
+  .button-ghost-light {
+    @apply border-2 border-paper/40 text-paper hover:border-paper;
+  }
 
-h1 { font-size: clamp(2.6rem, 6.5vw, 4.4rem); letter-spacing: -0.01em; }
-h2 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); }
-h3 { font-size: 1.2rem; }
+  .eyebrow {
+    @apply mb-4 text-[0.8rem] font-bold uppercase tracking-[0.14em] text-amber-deep;
+  }
 
-p { margin: 0 0 1em; max-width: var(--measure); }
+  .section {
+    @apply px-pad py-16 md:py-28 xl:px-32;
+  }
+  .section-head {
+    @apply mb-12 max-w-[46rem];
+  }
+  .section-lede {
+    @apply text-[1.15rem];
+  }
 
-a { color: var(--spruce); }
-
-:focus-visible {
-  outline: 3px solid var(--amber);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
-.eyebrow {
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--amber-deep);
-  margin-bottom: 1rem;
-}
-
-/* ---------- Buttons ---------- */
-.button {
-  display: inline-block;
-  padding: 0.8rem 1.6rem;
-  border-radius: 999px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
-}
-.button:hover { transform: translateY(-2px); }
-.button:active { transform: translateY(0); }
-
-.button-amber {
-  background: var(--amber);
-  color: #241A08;
-  box-shadow: 0 2px 0 var(--amber-deep);
-}
-.button-amber:hover { background: #DD9A3E; }
-
-.button-ghost {
-  color: var(--spruce);
-  border: 2px solid var(--sage-line);
-}
-.button-ghost:hover { border-color: var(--spruce); }
-
-.button-ghost-light {
-  color: var(--paper);
-  border: 2px solid rgba(243, 246, 242, 0.4);
-}
-.button-ghost-light:hover { border-color: var(--paper); }
-
-.text-link { font-weight: 700; }
-
-/* ---------- Sections ---------- */
-.section { padding: clamp(4rem, 9vw, 7rem) var(--pad-x); }
-
-.section-head { max-width: 46rem; margin-bottom: 3rem; }
-.section-lede { font-size: 1.15rem; }
-
-.section-sage { background: var(--sage); }
-
-.section-spruce {
-  background: var(--spruce);
-  color: var(--paper);
-}
-.section-spruce .eyebrow { color: #E5B15C; }
-
-/* ---------- Scroll reveal ---------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 500ms ease, transform 500ms ease;
-}
-.reveal.is-visible { opacity: 1; transform: none; }
-
-/* ---------- Responsive ---------- */
-@media (min-width: 1181px) {
-  /* Clear the fixed spine rail on the left */
-  :root { --pad-x: clamp(7rem, 9vw, 9rem); }
-}
-
-/* ---------- Reduced motion ---------- */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .button { transition: none; }
+  .text-link {
+    @apply font-bold;
+  }
 }

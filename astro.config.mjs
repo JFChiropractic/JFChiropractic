@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
 
 // GitHub Pages setup — pick the pair that matches where you host:
 //
@@ -15,4 +16,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://jfchiropractic.github.io",
   base: "/JFChiropractic",
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

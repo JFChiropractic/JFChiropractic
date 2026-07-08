@@ -10,90 +10,29 @@ const sections = [
 ] as const;
 ---
 
-<nav class="spine-rail" aria-label="Page sections">
+<nav
+  class="fixed left-6 top-1/2 z-[15] hidden -translate-y-1/2 flex-col gap-[1.1rem] before:absolute before:bottom-2 before:left-1.5 before:top-2 before:w-0.5 before:rounded before:bg-sage-line before:content-[''] xl:flex"
+  aria-label="Page sections"
+>
   {
     sections.map((s) => (
-      <a href={`#${s.id}`} data-section={s.id}>
-        <span class="rail-dot" />
-        <span class="rail-label">{s.label}</span>
+      <a class="group relative flex items-center gap-3 no-underline" href={`#${s.id}`} data-section={s.id}>
+        <span
+          class="h-2.5 w-3.5 rounded-[5px] bg-sage-line transition-all duration-200 group-data-[active]:scale-x-125 group-data-[active]:bg-amber motion-reduce:transition-none"
+        />
+        <span
+          class="-translate-x-1 text-[0.72rem] font-bold uppercase tracking-[0.08em] text-spruce opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 group-data-[active]:translate-x-0 group-data-[active]:opacity-100 motion-reduce:transition-none"
+        >
+          {s.label}
+        </span>
       </a>
     ))
   }
 </nav>
 
-<style>
-  .spine-rail {
-    position: fixed;
-    left: 1.4rem;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 15;
-    display: flex;
-    flex-direction: column;
-    gap: 1.1rem;
-  }
-  .spine-rail::before {
-    content: "";
-    position: absolute;
-    left: 6px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: var(--sage-line);
-    border-radius: 2px;
-  }
-  .spine-rail a {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    text-decoration: none;
-  }
-  .rail-dot {
-    width: 14px;
-    height: 10px;
-    border-radius: 5px;
-    background: var(--sage-line);
-    transition: background-color 160ms ease, transform 160ms ease;
-  }
-  .rail-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--spruce);
-    opacity: 0;
-    transform: translateX(-4px);
-    transition: opacity 160ms ease, transform 160ms ease;
-  }
-  .spine-rail a:hover .rail-label,
-  .spine-rail a:focus-visible .rail-label,
-  .spine-rail a.active .rail-label {
-    opacity: 1;
-    transform: none;
-  }
-  .spine-rail a.active .rail-dot {
-    background: var(--amber);
-    transform: scaleX(1.25);
-  }
-
-  @media (max-width: 1180px) {
-    .spine-rail {
-      display: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .rail-dot,
-    .rail-label {
-      transition: none;
-    }
-  }
-</style>
-
 <script>
   // Highlight the vertebra for the section currently in view.
-  const links = document.querySelectorAll<HTMLAnchorElement>(".spine-rail a");
+  const links = document.querySelectorAll<HTMLAnchorElement>("[data-section]");
 
   if (links.length && "IntersectionObserver" in window) {
     const byId = new Map<string, HTMLAnchorElement>();
@@ -105,8 +44,9 @@ const sections = [
       (entries) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          links.forEach((l) => l.classList.remove("active"));
-          byId.get(entry.target.id)?.classList.add("active");
+          links.forEach((l) => delete l.dataset.active);
+          const active = byId.get(entry.target.id);
+          if (active) active.dataset.active = "";
         }
       },
       { rootMargin: "-40% 0px -50% 0px" }

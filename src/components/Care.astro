@@ -3,7 +3,7 @@ import { services } from "../data/services";
 ---
 
 <section class="section" id="care">
-  <div class="section-head">
+  <div class="section-head" data-reveal>
     <p class="eyebrow">What we treat</p>
     <h2>Care for the whole kinetic chain</h2>
     <p class="section-lede">
@@ -11,45 +11,26 @@ import { services } from "../data/services";
       the ways we get you there.
     </p>
   </div>
-  <ul class="care-grid">
+  <ul
+    class="m-0 grid list-none grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-5 p-0"
+    data-reveal-group
+  >
     {
       services.map((service) => (
-        <li class="care-card" data-reveal>
-          <svg class="care-icon" viewBox="0 0 40 40" aria-hidden="true" set:html={service.icon} />
+        <li
+          class="rounded-[14px] border border-sage-line bg-white px-6 pb-5 pt-6 transition-shadow duration-300 hover:shadow-[0_10px_30px_rgba(28,43,38,0.08)]"
+          data-reveal
+        >
+          <svg
+            class="mb-4 h-[34px] w-[34px] fill-amber stroke-amber"
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+            set:html={service.icon}
+          />
           <h3>{service.title}</h3>
-          <p>{service.description}</p>
+          <p class="m-0 text-[0.98rem]">{service.description}</p>
         </li>
       ))
     }
   </ul>
 </section>
-
-<style>
-  .care-grid {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.2rem;
-  }
-
-  .care-card {
-    background: #ffffff;
-    border: 1px solid var(--sage-line);
-    border-radius: 14px;
-    padding: 1.6rem 1.5rem 1.2rem;
-  }
-  .care-card p {
-    margin-bottom: 0;
-    font-size: 0.98rem;
-  }
-
-  .care-icon {
-    width: 34px;
-    height: 34px;
-    margin-bottom: 0.9rem;
-    fill: var(--amber);
-    stroke: var(--amber);
-  }
-</style>

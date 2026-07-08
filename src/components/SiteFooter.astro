@@ -4,25 +4,10 @@ import { site } from "../config";
 const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer">
-  <p>© {year} {site.practiceName} · {site.address.join(", ")}</p>
-  <p class="footer-fineprint">
+<footer class="border-t border-sage-line px-pad pb-10 pt-8 text-sm text-moss xl:px-32">
+  <p class="mb-1.5">© {year} {site.practiceName} · {site.address.join(", ")}</p>
+  <p class="mb-0 text-xs">
     This website is for general information and isn't medical advice. For
     emergencies, call your local emergency number.
   </p>
 </footer>
-
-<style>
-  .site-footer {
-    padding: 2rem var(--pad-x) 2.5rem;
-    border-top: 1px solid var(--sage-line);
-    font-size: 0.9rem;
-    color: #4a5d55;
-  }
-  .site-footer p {
-    margin-bottom: 0.4rem;
-  }
-  .footer-fineprint {
-    font-size: 0.8rem;
-  }
-</style>

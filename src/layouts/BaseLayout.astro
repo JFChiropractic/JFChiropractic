@@ -25,6 +25,9 @@ const favicon =
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href={favicon} />
+    <!-- Marks JS as available before first paint so Motion can hide-then-reveal
+         without a flash; without JS the page renders fully visible. -->
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -41,24 +44,39 @@ const favicon =
     <SiteFooter />
 
     <script>
-      // Scroll reveal for cards, steps, and the testimonial.
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const targets = document.querySelectorAll<HTMLElement>("[data-reveal]");
+      // Scroll-triggered reveals, powered by Motion (motion.dev).
+      // [data-reveal-group] staggers its [data-reveal] children into view;
+      // standalone [data-reveal] elements rise in on their own.
+      import { animate, inView, stagger } from "motion";
 
-      if (!reduceMotion && "IntersectionObserver" in window) {
-        targets.forEach((el) => el.classList.add("reveal"));
-        const observer = new IntersectionObserver(
-          (entries) => {
-            for (const entry of entries) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                observer.unobserve(entry.target);
-              }
-            }
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+      function revealOnEnter(trigger: Element, targets: Element[]) {
+        const stop = inView(
+          trigger,
+          () => {
+            animate(
+              targets,
+              { opacity: [0, 1], y: [18, 0] },
+              { duration: 0.65, delay: stagger(0.09), ease: EASE_OUT }
+            );
+            stop();
           },
-          { threshold: 0.15 }
+          { margin: "0px 0px -12% 0px" }
         );
-        targets.forEach((el) => observer.observe(el));
+      }
+
+      if (!reduceMotion) {
+        const grouped = new Set<Element>();
+        document.querySelectorAll("[data-reveal-group]").forEach((group) => {
+          const items = [...group.querySelectorAll("[data-reveal]")];
+          items.forEach((el) => grouped.add(el));
+          if (items.length) revealOnEnter(group, items);
+        });
+        document.querySelectorAll("[data-reveal]").forEach((el) => {
+          if (!grouped.has(el)) revealOnEnter(el, [el]);
+        });
       }
     </script>
   </body>

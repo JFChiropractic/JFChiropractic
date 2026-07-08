@@ -2,13 +2,13 @@
 import { site } from "../config";
 ---
 
-<section class="section section-sage" id="visit">
-  <div class="section-head">
+<section class="section bg-sage" id="visit">
+  <div class="section-head" data-reveal>
     <p class="eyebrow">Hours &amp; location</p>
     <h2>Easy to reach, easy to park</h2>
   </div>
-  <div class="visit-grid">
-    <div class="visit-block">
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-8" data-reveal-group>
+    <div data-reveal>
       <h3>Find us</h3>
       <p>
         {site.address.map((line, i) => (
@@ -18,63 +18,28 @@ import { site } from "../config";
           </>
         ))}
       </p>
-      <p><a href={site.mapsUrl} class="text-link">Open in Google Maps</a></p>
+      <p class="mb-0"><a href={site.mapsUrl} class="text-link">Open in Google Maps</a></p>
     </div>
-    <div class="visit-block">
+    <div data-reveal>
       <h3>Hours</h3>
-      <table class="hours-table">
+      <table class="border-collapse">
         <tbody>
           {
             site.openingHours.map((row) => (
               <tr>
-                <th scope="row">{row.days}</th>
-                <td>{row.hours}</td>
+                <th class="py-1 pr-8 text-left font-bold" scope="row">{row.days}</th>
+                <td class="py-1">{row.hours}</td>
               </tr>
             ))
           }
         </tbody>
       </table>
     </div>
-    <div class="visit-block">
+    <div data-reveal>
       <h3>Good to know</h3>
-      <ul class="plain-list">
-        {site.goodToKnow.map((item) => <li>{item}</li>)}
+      <ul class="m-0 list-none p-0">
+        {site.goodToKnow.map((item) => <li class="py-1">{item}</li>)}
       </ul>
     </div>
   </div>
 </section>
-
-<style>
-  .visit-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-  }
-
-  .visit-block p:last-child {
-    margin-bottom: 0;
-  }
-
-  .hours-table {
-    border-collapse: collapse;
-  }
-  .hours-table th,
-  .hours-table td {
-    text-align: left;
-    padding: 0.35rem 0;
-    font-weight: 400;
-  }
-  .hours-table th {
-    padding-right: 2rem;
-    font-weight: 700;
-  }
-
-  .plain-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .plain-list li {
-    padding: 0.3rem 0;
-  }
-</style>
